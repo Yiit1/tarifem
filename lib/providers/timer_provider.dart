@@ -84,7 +84,7 @@ class TimerProvider extends ChangeNotifier {
     final newTimer = TimerModel(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
       name: name,
-      duration: durationMinutes * 60, // Convert minutes to seconds
+      duration: durationMinutes * 60, // dakikayı saniyeye çevirme
       remaining: durationMinutes * 60,
       isRunning: false,
     );

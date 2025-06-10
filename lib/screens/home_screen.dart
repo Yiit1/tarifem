@@ -18,8 +18,8 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     _scrollController.addListener(_onScroll);
-    
-    // Fetch initial recipes
+
+    // ilk tarifleri fetchleme
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<RecipeProvider>().fetchRecipes();
     });
@@ -46,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Recipe',
+          'Recipes',
           style: TextStyle(fontWeight: FontWeight.w600),
         ),
         centerTitle: false,
@@ -114,7 +114,7 @@ class _HomeScreenState extends State<HomeScreen> {
           }
 
           final filteredRecipes = recipeProvider.filteredRecipes;
-          
+
           if (filteredRecipes.isEmpty) {
             return Center(
               child: Column(
@@ -167,7 +167,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: CircularProgressIndicator(),
                     );
                   }
-                  
+
                   final recipe = filteredRecipes[index];
                   return RecipeCard(
                     recipe: recipe,

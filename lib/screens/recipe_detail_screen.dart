@@ -189,7 +189,7 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
     return Scaffold(
       body: Stack(
         children: [
-          // Main content
+          // Ana İçerik
           CustomScrollView(
             controller: _scrollController,
             slivers: [
@@ -247,12 +247,12 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                 ],
               ),
               
-              // Recipe content
+              // Tarif içeriği
               SliverToBoxAdapter(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Title and metadata
+
                     Padding(
                       padding: const EdgeInsets.all(16),
                       child: Column(
@@ -298,7 +298,7 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                       ),
                     ),
                     
-                    // Servings adjuster
+                    // Kişi sayısına göre malzeme ayarı
                     Container(
                       padding: const EdgeInsets.all(16),
                       color: Theme.of(context).colorScheme.surfaceVariant.withOpacity(0.3),

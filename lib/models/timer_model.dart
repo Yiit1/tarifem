@@ -1,8 +1,8 @@
 class TimerModel {
   final String id;
   final String name;
-  final int duration; // in seconds
-  int remaining; // in seconds
+  final int duration; // saniye cinsinden
+  int remaining; // saniye cinsinden
   bool isRunning;
 
   TimerModel({

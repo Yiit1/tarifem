@@ -6,39 +6,6 @@ import 'package:url_launcher/url_launcher.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
-
-  Future<void> _shareApp() async {
-    await Share.share(
-      'Check out this amazing recipe app!',
-      subject: 'Recipe App',
-    );
-  }
-
-  Future<void> _showHelpDialog(BuildContext context) async {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Help & Support'),
-        content: const Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Need help with the app?'),
-            SizedBox(height: 8),
-            Text('Email: support@recipeapp.com'),
-            Text('Version: 1.0.0'),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Close'),
-          ),
-        ],
-      ),
-    );
-  }
-
   Future<void> _confirmLogout(BuildContext context) async {
     showDialog(
       context: context,
@@ -97,14 +64,14 @@ class ProfileScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
                 const Text(
-                  'John Doe',
+                  'Yiğit Geldi',
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 const Text(
-                  'john.doe@example.com',
+                  'geldiyigit1@gmail.com',
                   style: TextStyle(
                     color: Colors.grey,
                   ),
@@ -165,16 +132,7 @@ class ProfileScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 16),
-                ListTile(
-                  leading: const Icon(Icons.share),
-                  title: const Text('Share App'),
-                  onTap: _shareApp,
-                ),
-                ListTile(
-                  leading: const Icon(Icons.help),
-                  title: const Text('Help & Support'),
-                  onTap: () => _showHelpDialog(context),
-                ),
+
                 ListTile(
                   leading: const Icon(Icons.logout, color: Colors.red),
                   title: const Text(
@@ -183,16 +141,7 @@ class ProfileScreen extends StatelessWidget {
                   ),
                   onTap: () => _confirmLogout(context),
                 ),
-                const SizedBox(height: 24),
-                Center(
-                  child: Text(
-                    'Version 1.0.0',
-                    style: TextStyle(
-                      color: Colors.grey[600],
-                      fontSize: 12,
-                    ),
-                  ),
-                ),
+
                 const SizedBox(height: 24),
               ],
             ),

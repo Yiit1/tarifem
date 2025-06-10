@@ -162,7 +162,7 @@ class _TimerScreenState extends State<TimerScreen> {
               // Timer list
               Expanded(
                 child: timers.isEmpty
-                    ? const SizedBox() // Empty space when no timers but form is shown
+                    ? const SizedBox() // Zamanlayıcı yokkenki görünüm
                     : ListView.builder(
                         padding: const EdgeInsets.all(16),
                         itemCount: timers.length,
