@@ -1,3 +1,4 @@
+// lib/widgets/recipe_card.dart
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:recipe_app/models/recipe.dart';
@@ -45,7 +46,7 @@ class RecipeCard extends StatelessWidget {
                 ),
               ),
             ),
-            
+
             // Recipe Details
             Padding(
               padding: const EdgeInsets.all(12),
@@ -63,41 +64,46 @@ class RecipeCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: 8),
-                  
-                  // Cooking Time
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.access_time,
-                        size: 16,
-                        color: Colors.grey[600],
-                      ),
-                      const SizedBox(width: 4),
-                      Text(
-                        '${recipe.cookingTime} mins',
-                        style: TextStyle(
-                          fontSize: 14,
+
+                  // Kategori (önceki Cooking Time yerine)
+                  if (recipe.category != null && recipe.category!.isNotEmpty)
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.category, // Kategori için uygun bir ikon
+                          size: 16,
                           color: Colors.grey[600],
                         ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 4),
-                  
-                  // Difficulty
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        recipe.difficulty,
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: _getDifficultyColor(recipe.difficulty),
+                        const SizedBox(width: 4),
+                        Text(
+                          'Kategori: ${recipe.category}',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.grey[600],
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
+                      ],
+                    ),
+                  // Eğer kategori yoksa veya kategori ve bölge bilgisi yeterli değilse
+                  // ve boşluk bırakmak istemiyorsanız SizedBox'ı kaldırabilirsiniz.
+                  if (recipe.category != null && recipe.category!.isNotEmpty)
+                    const SizedBox(height: 4),
+
+                  // Bölge (önceki Difficulty yerine)
+                  if (recipe.area != null && recipe.area!.isNotEmpty)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Bölge: ${recipe.area}',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.grey[700], // Bölge için daha nötr bir renk
+                          ),
+                        ),
+                      ],
+                    ),
                 ],
               ),
             ),
@@ -107,16 +113,19 @@ class RecipeCard extends StatelessWidget {
     );
   }
 
-  Color _getDifficultyColor(String difficulty) {
-    switch (difficulty) {
-      case 'Easy':
-        return Colors.green;
-      case 'Medium':
-        return Colors.orange;
-      case 'Hard':
-        return Colors.red;
-      default:
-        return Colors.grey;
-    }
-  }
+// Artık 'difficulty' alanı Recipe modelinde olmadığı için bu metot kaldırıldı.
+// Eğer özel bir renklendirme yapmak isterseniz, 'category' veya 'area' gibi
+// alanlara göre yeni bir _getColor metodu yazabilirsiniz.
+// Color _getDifficultyColor(String difficulty) {
+//   switch (difficulty) {
+//     case 'Easy':
+//       return Colors.green;
+//     case 'Medium':
+//       return Colors.orange;
+//     case 'Hard':
+//       return Colors.red;
+//     default:
+//       return Colors.grey;
+//   }
+// }
 }

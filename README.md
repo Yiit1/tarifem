@@ -4,5 +4,3 @@ Yemek Tarifi Asistanı flutter uygulaması
 
 ## Getting Started
 
-
-

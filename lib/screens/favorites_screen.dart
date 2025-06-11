@@ -1,3 +1,4 @@
+// lib/screens/favorites_screen.dart
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:recipe_app/models/recipe.dart';
@@ -17,6 +18,8 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      // FavoritesProvider'ın loadFavorites metodu, kayıtlı favori ID'leri alıp
+      // RecipeService.getFavoriteRecipes metodu ile API'den tarif detaylarını çekmelidir.
       context.read<FavoritesProvider>().loadFavorites();
     });
   }
@@ -51,15 +54,16 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    provider.errorMessage,
+                    // Hata mesajı nullable olduğu için ! ekledik
+                    provider.errorMessage!,
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 24),
                   ElevatedButton(
                     onPressed: () {
-                      provider.loadFavorites();
+                      provider.loadFavorites(); // Favorileri tekrar yükle
                     },
-                    child: const Text('Try Again'),
+                    child: const Text('Tekrar Dene'),
                   ),
                 ],
               ),
@@ -78,7 +82,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                   ),
                   const SizedBox(height: 16),
                   const Text(
-                    'No favorite recipes yet',
+                    'Henüz favori tarifiniz yok',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w500,
@@ -86,15 +90,15 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Save recipes you love for quick access',
+                    'Sevdiğiniz tarifleri hızlı erişim için kaydedin',
                     style: TextStyle(
                       color: Colors.grey[600],
                     ),
                   ),
                   const SizedBox(height: 24),
                   ElevatedButton(
-                    onPressed: () => context.go('/'),
-                    child: const Text('Browse Recipes'),
+                    onPressed: () => context.go('/'), // Ana ekrana git
+                    child: const Text('Tariflere Göz At'),
                   ),
                 ],
               ),
@@ -105,7 +109,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
             padding: const EdgeInsets.all(16),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
-              childAspectRatio: 0.75,
+              childAspectRatio: 0.75, // RecipeCard'ın yeni içeriğine göre bu oranı ayarlayabilirsiniz
               crossAxisSpacing: 16,
               mainAxisSpacing: 16,
             ),
