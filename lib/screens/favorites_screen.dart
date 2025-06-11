@@ -1,4 +1,3 @@
-// lib/screens/favorites_screen.dart
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:recipe_app/models/recipe.dart';
@@ -18,7 +17,6 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      // FavoritesProvider'ın loadFavorites metodu, kayıtlı favori ID'leri alıp
       // RecipeService.getFavoriteRecipes metodu ile API'den tarif detaylarını çekmelidir.
       context.read<FavoritesProvider>().loadFavorites();
     });
@@ -54,7 +52,6 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    // Hata mesajı nullable olduğu için ! ekledik
                     provider.errorMessage!,
                     textAlign: TextAlign.center,
                   ),
@@ -97,7 +94,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                   ),
                   const SizedBox(height: 24),
                   ElevatedButton(
-                    onPressed: () => context.go('/'), // Ana ekrana git
+                    onPressed: () => context.go('/'),
                     child: const Text('Tariflere Göz At'),
                   ),
                 ],
@@ -109,7 +106,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
             padding: const EdgeInsets.all(16),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
-              childAspectRatio: 0.75, // RecipeCard'ın yeni içeriğine göre bu oranı ayarlayabilirsiniz
+              childAspectRatio: 0.75,
               crossAxisSpacing: 16,
               mainAxisSpacing: 16,
             ),

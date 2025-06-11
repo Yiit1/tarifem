@@ -1,4 +1,3 @@
-// lib/widgets/recipe_card.dart
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:recipe_app/models/recipe.dart';
@@ -84,8 +83,6 @@ class RecipeCard extends StatelessWidget {
                         ),
                       ],
                     ),
-                  // Eğer kategori yoksa veya kategori ve bölge bilgisi yeterli değilse
-                  // ve boşluk bırakmak istemiyorsanız SizedBox'ı kaldırabilirsiniz.
                   if (recipe.category != null && recipe.category!.isNotEmpty)
                     const SizedBox(height: 4),
 
@@ -112,20 +109,4 @@ class RecipeCard extends StatelessWidget {
       ),
     );
   }
-
-// Artık 'difficulty' alanı Recipe modelinde olmadığı için bu metot kaldırıldı.
-// Eğer özel bir renklendirme yapmak isterseniz, 'category' veya 'area' gibi
-// alanlara göre yeni bir _getColor metodu yazabilirsiniz.
-// Color _getDifficultyColor(String difficulty) {
-//   switch (difficulty) {
-//     case 'Easy':
-//       return Colors.green;
-//     case 'Medium':
-//       return Colors.orange;
-//     case 'Hard':
-//       return Colors.red;
-//     default:
-//       return Colors.grey;
-//   }
-// }
 }

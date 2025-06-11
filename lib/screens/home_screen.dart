@@ -1,4 +1,3 @@
-// lib/screens/home_screen.dart
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:recipe_app/providers/recipe_provider.dart';
@@ -15,38 +14,28 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController _searchController = TextEditingController();
-  // final ScrollController _scrollController = ScrollController(); // Infinite scroll kaldırıldığı için kaldırıldı
+
 
   @override
   void initState() {
     super.initState();
-    // _scrollController.addListener(_onScroll); // Infinite scroll kaldırıldığı için kaldırıldı
 
-    // ilk tarifleri fetchleme (Refresh ile ilk yüklemede veya yenilemede tüm listeyi getirir)
+
+    // ilk tarifleri fetchleme
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final recipeProvider = context.read<RecipeProvider>();
-      _searchController.text = recipeProvider.searchQuery; // currentSearchQuery yerine searchQuery
-      recipeProvider.fetchRecipes(refresh: true); // İlk yüklemede ve yenilemede fetchRecipes'i çağır
+      _searchController.text = recipeProvider.searchQuery;
+      recipeProvider.fetchRecipes(refresh: true);
     });
   }
 
   @override
   void dispose() {
-    // _scrollController.removeListener(_onScroll); // Infinite scroll kaldırıldığı için kaldırıldı
-    // _scrollController.dispose(); // Infinite scroll kaldırıldığı için kaldırıldı
+
     _searchController.dispose();
     super.dispose();
   }
 
-  // Infinite scroll mantığı artık kullanılmadığı için _onScroll metodu kaldırıldı.
-  // void _onScroll() {
-  //   if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent - 200) {
-  //     final recipeProvider = context.read<RecipeProvider>();
-  //     if (!recipeProvider.isLoading && recipeProvider.hasMoreRecipes) {
-  //       recipeProvider.fetchRecipes();
-  //     }
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -87,13 +76,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     filled: true,
                     fillColor: Theme.of(context).colorScheme.surfaceVariant.withOpacity(0.3),
-                    suffixIcon: recipeProvider.searchQuery.isNotEmpty // currentSearchQuery yerine searchQuery
+                    suffixIcon: recipeProvider.searchQuery.isNotEmpty
                         ? IconButton(
                       icon: const Icon(Icons.clear),
                       onPressed: () {
                         _searchController.clear();
                         recipeProvider.setSearchQuery('');
-                        recipeProvider.fetchRecipes(refresh: true); // Yeniden tüm tarifleri çek (varsayılan kategori)
+                        recipeProvider.fetchRecipes(refresh: true); // Yeniden tüm tarifleri çek
                       },
                     )
                         : null,
@@ -102,9 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     recipeProvider.setSearchQuery(value);
                   },
                   onSubmitted: (value) {
-                    // Arama yapıldığında, provider'ın kendi filtreleme mantığı çalışacak.
-                    // API'den yeniden arama yapmak isterseniz, burada farklı bir metod çağırabilirsiniz.
-                    // Şimdilik sadece mevcut listede filtreleme yapıyoruz.
+
                   },
                 ),
               ),
@@ -120,7 +107,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildRecipeList(RecipeProvider recipeProvider, List<Recipe> filteredRecipes) {
     if (recipeProvider.isLoading && filteredRecipes.isEmpty) {
-      // Yükleniyor ve henüz hiç tarif yoksa
+      // Yükleniyor ve henüz hiç tarif yoksa böyle
       return const Center(
         child: CircularProgressIndicator(),
       );
@@ -173,7 +160,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             const SizedBox(height: 8),
             Text(
-              recipeProvider.searchQuery.isNotEmpty // currentSearchQuery yerine searchQuery
+              recipeProvider.searchQuery.isNotEmpty
                   ? 'Try different search terms'
                   : 'Check your internet connection or try again later.',
               style: TextStyle(
@@ -181,12 +168,12 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             const SizedBox(height: 24),
-            if (recipeProvider.searchQuery.isNotEmpty) // currentSearchQuery yerine searchQuery
+            if (recipeProvider.searchQuery.isNotEmpty)
               ElevatedButton(
                 onPressed: () {
                   _searchController.clear();
                   recipeProvider.setSearchQuery('');
-                  recipeProvider.fetchRecipes(refresh: true); // Rastgele tarifleri tekrar çek
+                  recipeProvider.fetchRecipes(refresh: true);
                 },
                 child: const Text('Tüm Tarifleri Göster'),
               ),
@@ -196,25 +183,18 @@ class _HomeScreenState extends State<HomeScreen> {
     }
 
     return RefreshIndicator(
-      onRefresh: () => recipeProvider.fetchRecipes(refresh: true), // Refresh yapıldığında fetchRecipes'i çağır
+      onRefresh: () => recipeProvider.fetchRecipes(refresh: true), // Refresh yapıldığında fetchRecipes'i çağırmak için
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: GridView.builder(
-          // scrollController kaldırıldı
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
             childAspectRatio: 0.75,
             crossAxisSpacing: 8,
             mainAxisSpacing: 8,
           ),
-          itemCount: filteredRecipes.length, // Yükleniyor göstergesi kaldırıldığı için düzeltildi
+          itemCount: filteredRecipes.length,
           itemBuilder: (context, index) {
-            // Infinite scroll kaldırıldığı için loading indicator kontrolü kaldırıldı
-            // if (index >= filteredRecipes.length) {
-            //   return const Center(
-            //     child: CircularProgressIndicator(),
-            //   );
-            // }
 
             final recipe = filteredRecipes[index];
             return RecipeCard(

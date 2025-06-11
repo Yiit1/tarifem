@@ -1,4 +1,3 @@
-// lib/screens/recipe_detail_screen.dart
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -7,7 +6,6 @@ import 'package:recipe_app/providers/favorites_provider.dart';
 import 'package:recipe_app/providers/recipe_provider.dart';
 import 'package:recipe_app/providers/shopping_list_provider.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:url_launcher/url_launcher.dart'; // YouTube linki için
 
 class RecipeDetailScreen extends StatefulWidget {
   final String id;
@@ -24,7 +22,6 @@ class RecipeDetailScreen extends StatefulWidget {
 class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
   Recipe? _recipe;
   bool _isFavorite = false;
-  // int _servings = 4; // TheMealDB'de servings alanı bulunmadığı için kaldırıldı.
   bool _loading = true;
   final ScrollController _scrollController = ScrollController();
   final ValueNotifier<double> _scrollOffset = ValueNotifier(0);
@@ -59,7 +56,7 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
     if (mounted) {
       setState(() {
         _recipe = recipe;
-        // _servings = recipe?.servings ?? 4; // Kaldırıldı
+
         _loading = false;
       });
     }
@@ -75,28 +72,6 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
     }
   }
 
-  // Kişi sayısına göre malzeme ayarlama metodu TheMealDB'de servings olmadığı için kaldırıldı.
-  // void _adjustServings(int change) {
-  //   final newServings = _servings + change;
-  //   if (newServings >= 1 && newServings <= 12) {
-  //     setState(() {
-  //       _servings = newServings;
-  //     });
-  //   }
-  // }
-
-  // Miktar hesaplama ve formatlama metotları, TheMealDB'den gelen quantity string olduğu için kaldırıldı.
-  // double _calculateAdjustedQuantity(double quantity) {
-  //   if (_recipe == null) return quantity;
-  //   return quantity / _recipe!.servings * _servings;
-  // }
-  // String _formatQuantity(double quantity) {
-  //   if (quantity == quantity.toInt()) {
-  //     return quantity.toInt().toString();
-  //   }
-  //   return quantity.toStringAsFixed(1);
-  // }
-
   void _toggleFavorite() {
     if (_recipe != null) {
       context.read<FavoritesProvider>().toggleFavorite(_recipe!);
@@ -109,7 +84,7 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
   void _shareRecipe() {
     if (_recipe != null) {
       Share.share(
-        // cookingTime artık yok
+
         'Check out this recipe for ${_recipe!.title}! Find more details at ${_recipe!.youtubeLink ?? 'TheMealDB.com'}',
         subject: _recipe!.title,
       );
@@ -122,11 +97,10 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
     final shoppingListProvider = context.read<ShoppingListProvider>();
 
     for (var ingredient in _recipe!.ingredients) {
-      // TheMealDB'den gelen miktar ve birim zaten tek bir string veya ayrı ayrı stringlerdir.
-      // adjustedQuantity ve formattedQuantity hesaplamalarına gerek kalmadı.
+
       final quantityText = '${ingredient.quantity} ${ingredient.unit}'.trim();
 
-      // Sadece gerçekten bir miktarı olan malzemeleri ekle.
+
       if (ingredient.name.isNotEmpty) {
         shoppingListProvider.addItem(ingredient.name, quantityText);
       }
@@ -282,7 +256,7 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                             ),
                           ),
                           const SizedBox(height: 8),
-                          // cookingTime ve difficulty kaldırıldı, yerine category ve area eklendi
+
                           if (_recipe!.category != null && _recipe!.category!.isNotEmpty)
                             Padding(
                               padding: const EdgeInsets.only(bottom: 4.0),
@@ -312,80 +286,12 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                               ),
                             ),
 
-                          // YouTube Linki
-                          /* if (_recipe!.youtubeLink != null && _recipe!.youtubeLink!.isNotEmpty)
-                            Padding(
-                              padding: const EdgeInsets.only(top: 16.0),
-                              child: ElevatedButton.icon(
-                                onPressed: () async {
-                                  final Uri url = Uri.parse(_recipe!.youtubeLink!);
-                                  if (await canLaunchUrl(url)) {
-                                    await launchUrl(url);
-                                  } else {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(content: Text('Video açılamadı: ${_recipe!.youtubeLink}')),
-                                    );
-                                  }
-                                },
-                                icon: const Icon(Icons.play_circle_fill),
-                                label: const Text('YouTube Videosunu İzle'),
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.red.shade700,
-                                  foregroundColor: Colors.white,
-                                ),
-                              ),
-                            ), */
                         ],
                       ),
                     ),
 
-                    // Kişi sayısına göre malzeme ayarı kaldırıldı (TheMealDB'de servings yok)
-                    // Container(
-                    //   padding: const EdgeInsets.all(16),
-                    //   color: Theme.of(context).colorScheme.surfaceVariant.withOpacity(0.3),
-                    //   child: Row(
-                    //     children: [
-                    //       const Text(
-                    //         'Servings:',
-                    //         style: TextStyle(
-                    //           fontWeight: FontWeight.w500,
-                    //           fontSize: 16,
-                    //         ),
-                    //       ),
-                    //       const Spacer(),
-                    //       IconButton(
-                    //         icon: const Icon(Icons.remove),
-                    //         onPressed: _servings > 1
-                    //             ? () => _adjustServings(-1)
-                    //             : null,
-                    //         style: IconButton.styleFrom(
-                    //           backgroundColor: Theme.of(context).colorScheme.surface,
-                    //         ),
-                    //       ),
-                    //       Padding(
-                    //         padding: const EdgeInsets.symmetric(horizontal: 16),
-                    //         child: Text(
-                    //           '$_servings',
-                    //           style: const TextStyle(
-                    //             fontSize: 18,
-                    //             fontWeight: FontWeight.bold,
-                    //           ),
-                    //         ),
-                    //       ),
-                    //       IconButton(
-                    //         icon: const Icon(Icons.add),
-                    //         onPressed: _servings < 12
-                    //             ? () => _adjustServings(1)
-                    //             : null,
-                    //         style: IconButton.styleFrom(
-                    //           backgroundColor: Theme.of(context).colorScheme.surface,
-                    //         ),
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
 
-                    // Ingredients
+                    // Malzemeler
                     Padding(
                       padding: const EdgeInsets.all(16),
                       child: Column(
@@ -409,7 +315,7 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                             ],
                           ),
                           const SizedBox(height: 12),
-                          // Sadece adı olan malzemeleri listele
+                          // Sadece adı olan malzemeleri listeleme
                           ..._recipe!.ingredients.where((i) => i.name.isNotEmpty).map(
                                 (ingredient) => Padding(
                               padding: const EdgeInsets.only(bottom: 8),
@@ -424,8 +330,6 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                                     ),
                                   ),
                                   const SizedBox(width: 12),
-                                  // Miktarı ve birimi birleştirerek gösteriyoruz.
-                                  // Quantity ve unit artık String, direkt kullanabiliriz.
                                   Text(
                                     '${ingredient.quantity} ${ingredient.unit}'.trim(),
                                     style: const TextStyle(
@@ -439,12 +343,12 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                                 ],
                               ),
                             ),
-                          ).toList(), // Map'ten sonra .toList() ekledik
+                          ).toList(),
                         ],
                       ),
                     ),
 
-                    // Instructions
+                    // Yapılış talimatları
                     Padding(
                       padding: const EdgeInsets.all(16),
                       child: Column(
@@ -458,22 +362,20 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                             ),
                           ),
                           const SizedBox(height: 12),
-                          // Talimatları satırlara bölerek gösteriyoruz.
-                          // TheMealDB'den gelen talimatlar tek bir stringdir ve \r\n ile ayrılır.
                           if (_recipe!.instructions != null && _recipe!.instructions!.isNotEmpty)
                             ..._recipe!.instructions!
                                 .split('\r\n')
-                                .where((line) => line.trim().isNotEmpty) // Boş satırları filtrele
+                                .where((line) => line.trim().isNotEmpty)
                                 .map((line) => Padding(
                               padding: const EdgeInsets.only(bottom: 16),
                               child: Text(
-                                line.trim(), // Satır başı/sonu boşlukları temizle
+                                line.trim(),
                                 style: const TextStyle(
                                   height: 1.5,
                                 ),
                               ),
                             ))
-                                .toList(), // Map'ten sonra .toList() ekledik
+                                .toList(),
                           // Add bottom padding
                           const SizedBox(height: 32),
                         ],
